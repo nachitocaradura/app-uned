@@ -19,179 +19,156 @@
       gap: 2rem;
     }
 
-    .back {
-      position: absolute;
-      top: 20px; left: 20px;
-      font-size: 14px;
-      color: #5f6368;
-      text-decoration: none;
-    }
+    /* ── Menú principal ── */
+    .back { position: absolute; top: 20px; left: 20px; font-size: 14px; color: #5f6368; text-decoration: none; }
     .back:hover { color: #202124; }
-
     h1 { font-size: 22px; font-weight: 500; color: #202124; }
     .subtitle { font-size: 14px; color: #5f6368; margin-top: -1.5rem; }
-
-    .section-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #9aa0a6;
-      align-self: flex-start;
-      max-width: 420px;
-      width: 100%;
-    }
-
-    .btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    button {
-      width: 100%;
-      padding: 18px 24px;
-      background: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 500;
-      font-family: inherit;
-      color: #202124;
-      cursor: pointer;
-      text-align: left;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-      transition: box-shadow 0.2s, background 0.2s;
-    }
+    .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #9aa0a6; align-self: flex-start; max-width: 420px; width: 100%; }
+    .btn-group { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 420px; }
+    button { width: 100%; padding: 18px 24px; background: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 500; font-family: inherit; color: #202124; cursor: pointer; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.12); transition: box-shadow 0.2s, background 0.2s; }
     button:hover { background: #f8f9fa; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
     button small { display: block; font-size: 12px; font-weight: 400; color: #888; margin-top: 2px; }
-
     .divider { width: 100%; max-width: 420px; border: none; border-top: 1px solid #e0e0e0; }
-
-    .btn-upload {
-      background: white;
-      border: 1.5px dashed #dadce0 !important;
-      box-shadow: none !important;
-      color: #5f6368 !important;
-      font-weight: 400 !important;
-    }
+    .btn-upload { background: white; border: 1.5px dashed #dadce0 !important; box-shadow: none !important; color: #5f6368 !important; font-weight: 400 !important; }
     .btn-upload:hover { border-color: #1a73e8 !important; color: #1a73e8 !important; background: #f0f7ff !important; }
 
-    .modal-bg {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
+    /* ── Modales ── */
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); align-items: center; justify-content: center; z-index: 100; }
     .modal-bg.open { display: flex; }
-
-    .modal {
-      background: white;
-      border-radius: 16px;
-      padding: 2rem;
-      width: 90%;
-      max-width: 480px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-      max-height: 80vh;
-      overflow-y: auto;
-    }
+    .modal { background: white; border-radius: 16px; padding: 2rem; width: 90%; max-width: 520px; box-shadow: 0 4px 24px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
     .modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 0.5rem; color: #202124; }
-    .modal p { font-size: 13px; color: #5f6368; margin-bottom: 1.25rem; line-height: 1.5; }
-    .modal input[type="file"] {
-      display: block; width: 100%; padding: 10px;
-      border: 1px dashed #dadce0; border-radius: 8px;
-      font-size: 13px; margin-bottom: 1rem;
-      cursor: pointer; background: #f8f9fa;
-    }
-    .modal-btns { display: flex; gap: 8px; }
-    .modal-btns button { padding: 10px 16px; font-size: 14px; border-radius: 8px; box-shadow: none; }
+    .modal p.modal-desc { font-size: 13px; color: #5f6368; margin-bottom: 1.25rem; line-height: 1.5; }
+    .modal input[type="file"] { display: block; width: 100%; padding: 10px; border: 1px dashed #dadce0; border-radius: 8px; font-size: 13px; margin-bottom: 1rem; cursor: pointer; background: #f8f9fa; }
+    .modal-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .modal-btns button { padding: 10px 16px; font-size: 14px; border-radius: 8px; box-shadow: none; width: auto; }
     .btn-primary { background: #1a73e8 !important; color: white !important; font-weight: 500 !important; }
     .btn-primary:hover { background: #1557b0 !important; }
-    .btn-cancel { background: #f1f3f4 !important; color: #5f6368 !important; }
-
-    #upload-log {
-      margin-top: 1rem; font-size: 12px; font-family: monospace;
-      background: #f8f9fa; border-radius: 8px; padding: 0.75rem;
-      max-height: 200px; overflow-y: auto; display: none;
-    }
-
-    /* Lista de exámenes */
-    .examen-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #f1f3f4;
-    }
+    .btn-cancel { background: #f1f3f4 !important; color: #5f6368 !important; box-shadow: none !important; }
+    #upload-log { margin-top: 1rem; font-size: 12px; font-family: monospace; background: #f8f9fa; border-radius: 8px; padding: 0.75rem; max-height: 160px; overflow-y: auto; display: none; }
+    .examen-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f3f4; }
     .examen-item:last-child { border-bottom: none; }
     .examen-nombre { font-size: 14px; color: #202124; }
     .examen-meta { font-size: 12px; color: #9aa0a6; margin-top: 2px; }
-    .btn-delete {
-      width: auto;
-      padding: 6px 12px;
-      font-size: 12px;
-      background: #fce8e6 !important;
-      color: #d93025 !important;
-      border-radius: 8px;
-      box-shadow: none !important;
-      font-weight: 500 !important;
-      flex-shrink: 0;
-    }
+    .btn-delete { width: auto !important; padding: 6px 12px !important; font-size: 12px !important; background: #fce8e6 !important; color: #d93025 !important; border-radius: 8px !important; box-shadow: none !important; font-weight: 500 !important; flex-shrink: 0; }
     .btn-delete:hover { background: #f5c6c2 !important; }
     .empty-msg { font-size: 13px; color: #9aa0a6; text-align: center; padding: 1.5rem 0; }
+    .ok { color: #1e8e3e; } .err { color: #d93025; }
 
-    .ok  { color: #1e8e3e; }
-    .err { color: #d93025; }
+    /* ── Pantalla de examen ── */
+    #pantalla-examen { display: none; width: 100%; max-width: 620px; }
+    .examen-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+    .examen-titulo { font-size: 16px; font-weight: 500; color: #202124; flex: 1; }
+    .examen-progreso { font-size: 13px; color: #5f6368; white-space: nowrap; }
+    .pregunta-num { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #9aa0a6; margin-bottom: 8px; }
+    .pregunta-tipo-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; margin-bottom: 12px; font-weight: 500; }
+    .badge-test { background: #e8f0fe; color: #1a73e8; }
+    .badge-reserva { background: #fef3cd; color: #b06000; }
+    .badge-practica { background: #e6f4ea; color: #1e8e3e; }
+    .pregunta-enunciado { font-size: 15px; color: #202124; line-height: 1.6; margin-bottom: 1.25rem; white-space: pre-wrap; }
+    .opciones { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+    .opcion {
+      padding: 14px 18px; background: white; border: 1.5px solid #dadce0;
+      border-radius: 10px; font-size: 14px; color: #202124; cursor: pointer;
+      text-align: left; font-family: inherit; font-weight: 400;
+      box-shadow: none; transition: border-color 0.15s, background 0.15s;
+    }
+    .opcion:hover { border-color: #1a73e8; background: #f0f7ff; }
+    .opcion.correcta { border-color: #1e8e3e !important; background: #e6f4ea !important; color: #1e8e3e !important; }
+    .opcion.incorrecta { border-color: #d93025 !important; background: #fce8e6 !important; color: #d93025 !important; }
+    .opcion.disabled { pointer-events: none; }
+    .feedback { padding: 12px 16px; border-radius: 10px; font-size: 14px; line-height: 1.5; margin-bottom: 1.25rem; display: none; }
+    .feedback.correcto { background: #e6f4ea; color: #1e8e3e; }
+    .feedback.incorrecto { background: #fce8e6; color: #c5221f; }
+    .feedback.practica-fb { background: #f8f9fa; color: #5f6368; }
+    .nav-btns { display: flex; gap: 10px; justify-content: flex-end; }
+    .nav-btns button { width: auto; padding: 10px 20px; font-size: 14px; border-radius: 8px; box-shadow: none; }
+
+    /* ── Resultados ── */
+    .resultados { text-align: center; padding: 1rem 0; }
+    .resultado-score { font-size: 52px; font-weight: 500; color: #1a73e8; line-height: 1; }
+    .resultado-label { font-size: 14px; color: #5f6368; margin-top: 6px; margin-bottom: 1.5rem; }
+    .resultado-detalle { font-size: 14px; color: #202124; margin-bottom: 1.5rem; line-height: 1.8; }
+
+    /* ── Modal elegir examen ── */
+    .elegir-item { padding: 14px 0; border-bottom: 1px solid #f1f3f4; cursor: pointer; }
+    .elegir-item:last-child { border-bottom: none; }
+    .elegir-item:hover .elegir-nombre { color: #1a73e8; }
+    .elegir-nombre { font-size: 15px; font-weight: 500; color: #202124; }
+    .elegir-meta { font-size: 12px; color: #9aa0a6; margin-top: 2px; }
   </style>
 </head>
 <body>
 
-  <a class="back" href="index.html">← Volver</a>
+  <a class="back" href="index.html" id="btn-volver">← Volver</a>
 
-  <h1>Programación Orientada a Objetos</h1>
-  <p class="subtitle">POO — Elige cómo quieres practicar</p>
+  <!-- ── MENÚ PRINCIPAL ── -->
+  <div id="pantalla-menu" style="display:contents;">
+    <h1>Programación Orientada a Objetos</h1>
+    <p class="subtitle">POO — Elige cómo quieres practicar</p>
 
-  <div class="section-label">Hacer examen</div>
+    <div class="section-label">Hacer examen</div>
+    <div class="btn-group">
+      <button id="btn-aleatorio">
+        Examen aleatorio
+        <small>10 preguntas mezcladas de todos los exámenes</small>
+      </button>
+      <button id="btn-elegir">
+        Elegir examen
+        <small>Selecciona un examen concreto y hazlo completo</small>
+      </button>
+      <button id="btn-completo">
+        Examen completo
+        <small>Todas las preguntas de todos los exámenes juntas</small>
+      </button>
+    </div>
 
-  <div class="btn-group">
-    <button>
-      Examen aleatorio
-      <small>10 preguntas mezcladas de todos los exámenes</small>
-    </button>
-    <button>
-      Elegir examen
-      <small>Selecciona un examen concreto y hazlo completo</small>
-    </button>
-    <button>
-      Examen completo
-      <small>Todas las preguntas de todos los exámenes juntas</small>
-    </button>
+    <hr class="divider">
+    <div class="section-label">Administración</div>
+    <div class="btn-group">
+      <button class="btn-upload" id="btn-open-modal">
+        + Subir nuevo examen
+        <small>Sube un JSON de examen generado por Claude</small>
+      </button>
+      <button class="btn-upload" id="btn-ver-examenes">
+        Ver exámenes subidos
+        <small>Lista y elimina los exámenes guardados en Firestore</small>
+      </button>
+    </div>
   </div>
 
-  <hr class="divider">
+  <!-- ── PANTALLA DE EXAMEN ── -->
+  <div id="pantalla-examen">
+    <div class="examen-header">
+      <div class="examen-titulo" id="examen-titulo">Examen</div>
+      <div class="examen-progreso" id="examen-progreso">1 / 10</div>
+    </div>
+    <div class="pregunta-num" id="pregunta-num">Pregunta 1</div>
+    <span class="pregunta-tipo-badge" id="pregunta-badge">Test</span>
+    <div class="pregunta-enunciado" id="pregunta-enunciado"></div>
+    <div class="opciones" id="opciones-container"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="nav-btns">
+      <button class="btn-cancel" id="btn-abandonar">Abandonar</button>
+      <button class="btn-primary" id="btn-siguiente" style="display:none;">Siguiente →</button>
+    </div>
 
-  <div class="section-label">Administración</div>
-
-  <div class="btn-group">
-    <button class="btn-upload" id="btn-open-modal">
-      + Subir nuevo examen
-      <small>Sube un JSON de examen generado por Claude</small>
-    </button>
-    <button class="btn-upload" id="btn-ver-examenes">
-      Ver exámenes subidos
-      <small>Lista y elimina los exámenes guardados en Firestore</small>
-    </button>
+    <!-- Pantalla de resultados (dentro del mismo bloque) -->
+    <div class="resultados" id="pantalla-resultados" style="display:none;">
+      <div class="resultado-score" id="resultado-score">0/0</div>
+      <div class="resultado-label">preguntas correctas</div>
+      <div class="resultado-detalle" id="resultado-detalle"></div>
+      <div class="modal-btns" style="justify-content:center;">
+        <button class="btn-primary" id="btn-reintentar">Volver al menú</button>
+      </div>
+    </div>
   </div>
 
   <!-- Modal: subir examen -->
   <div class="modal-bg" id="modal-subir">
     <div class="modal">
       <h2>Subir examen a Firestore</h2>
-      <p>Selecciona el archivo <strong>.json</strong> del examen generado por Claude.</p>
+      <p class="modal-desc">Selecciona el archivo <strong>.json</strong> del examen generado por Claude.</p>
       <input type="file" id="fileInput" accept=".json">
       <div class="modal-btns">
         <button class="btn-primary" id="btn-subir">Subir</button>
@@ -205,10 +182,22 @@
   <div class="modal-bg" id="modal-ver">
     <div class="modal">
       <h2>Exámenes subidos</h2>
-      <p>Aquí puedes ver y eliminar los exámenes guardados en Firestore.</p>
+      <p class="modal-desc">Aquí puedes ver y eliminar los exámenes guardados en Firestore.</p>
       <div id="lista-examenes"><p class="empty-msg">Cargando...</p></div>
       <div class="modal-btns" style="margin-top: 1.25rem;">
         <button class="btn-cancel" id="btn-cerrar-ver">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: elegir examen -->
+  <div class="modal-bg" id="modal-elegir">
+    <div class="modal">
+      <h2>Elegir examen</h2>
+      <p class="modal-desc">Selecciona el examen que quieres hacer.</p>
+      <div id="lista-elegir"><p class="empty-msg">Cargando...</p></div>
+      <div class="modal-btns" style="margin-top: 1.25rem;">
+        <button class="btn-cancel" id="btn-cerrar-elegir">Cancelar</button>
       </div>
     </div>
   </div>
@@ -230,27 +219,219 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // ── Estado del examen ──
+    let preguntas = [];
+    let indice = 0;
+    let correctas = 0;
+    let respondidas = 0;
+
+    // ── Utilidades ──
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    async function cargarTodasLasPreguntas() {
+      const snap = await getDocs(collection(db, 'examenes', 'POO', 'lista'));
+      let todas = [];
+      snap.forEach(d => {
+        const e = d.data();
+        if (e.preguntas) todas = todas.concat(e.preguntas);
+      });
+      return todas;
+    }
+
+    // ── Navegación menú / examen ──
+    function mostrarMenu() {
+      document.getElementById('pantalla-menu').style.display = 'contents';
+      document.getElementById('pantalla-examen').style.display = 'none';
+      document.getElementById('pantalla-resultados').style.display = 'none';
+      document.getElementById('btn-volver').href = 'index.html';
+      document.body.style.justifyContent = 'center';
+    }
+
+    function mostrarExamen() {
+      document.getElementById('pantalla-menu').style.display = 'none';
+      document.getElementById('pantalla-examen').style.display = 'block';
+      document.getElementById('pantalla-resultados').style.display = 'none';
+      document.getElementById('btn-volver').href = '#';
+      document.getElementById('btn-volver').onclick = (e) => { e.preventDefault(); mostrarMenu(); };
+      document.body.style.justifyContent = 'flex-start';
+      document.body.style.paddingTop = '4rem';
+    }
+
+    function iniciarExamen(lista, titulo) {
+      preguntas = lista;
+      indice = 0;
+      correctas = 0;
+      respondidas = 0;
+      document.getElementById('examen-titulo').textContent = titulo;
+      mostrarExamen();
+      renderPregunta();
+    }
+
+    function renderPregunta() {
+      const p = preguntas[indice];
+      const total = preguntas.length;
+
+      document.getElementById('examen-progreso').textContent = `${indice + 1} / ${total}`;
+      document.getElementById('pregunta-num').textContent = `Pregunta ${indice + 1}`;
+      document.getElementById('pregunta-enunciado').textContent = p.enunciado;
+      document.getElementById('feedback').style.display = 'none';
+      document.getElementById('btn-siguiente').style.display = 'none';
+
+      // Badge tipo
+      const badge = document.getElementById('pregunta-badge');
+      if (p.tipo === 'test') { badge.textContent = 'Test'; badge.className = 'pregunta-tipo-badge badge-test'; }
+      else if (p.tipo === 'reserva') { badge.textContent = 'Reserva'; badge.className = 'pregunta-tipo-badge badge-reserva'; }
+      else { badge.textContent = 'Práctica'; badge.className = 'pregunta-tipo-badge badge-practica'; }
+
+      // Opciones
+      const cont = document.getElementById('opciones-container');
+      cont.innerHTML = '';
+
+      if (p.tipo === 'practica') {
+        // Preguntas prácticas: mostrar enunciado y botón continuar
+        const fb = document.getElementById('feedback');
+        fb.className = 'feedback practica-fb';
+        fb.textContent = 'Esta es una pregunta de desarrollo. Revísala y continúa.';
+        fb.style.display = 'block';
+        document.getElementById('btn-siguiente').style.display = 'inline-block';
+        document.getElementById('btn-siguiente').textContent = indice < preguntas.length - 1 ? 'Siguiente →' : 'Ver resultados';
+        return;
+      }
+
+      p.opciones.forEach((texto, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'opcion';
+        btn.textContent = `${String.fromCharCode(97 + i)}) ${texto}`;
+        btn.addEventListener('click', () => seleccionarOpcion(i));
+        cont.appendChild(btn);
+      });
+    }
+
+    function seleccionarOpcion(i) {
+      const p = preguntas[indice];
+      const btns = document.querySelectorAll('.opcion');
+      btns.forEach(b => b.classList.add('disabled'));
+
+      const fb = document.getElementById('feedback');
+      const siguiente = document.getElementById('btn-siguiente');
+
+      respondidas++;
+      if (i === p.respuesta_correcta) {
+        btns[i].classList.add('correcta');
+        correctas++;
+        fb.className = 'feedback correcto';
+        fb.textContent = '✓ ¡Correcto!';
+      } else {
+        btns[i].classList.add('incorrecta');
+        btns[p.respuesta_correcta].classList.add('correcta');
+        fb.className = 'feedback incorrecto';
+        fb.textContent = `✗ Incorrecto. La respuesta correcta era: ${String.fromCharCode(97 + p.respuesta_correcta)}) ${p.opciones[p.respuesta_correcta]}`;
+      }
+
+      fb.style.display = 'block';
+      siguiente.style.display = 'inline-block';
+      siguiente.textContent = indice < preguntas.length - 1 ? 'Siguiente →' : 'Ver resultados';
+    }
+
+    document.getElementById('btn-siguiente').addEventListener('click', () => {
+      indice++;
+      if (indice < preguntas.length) {
+        renderPregunta();
+      } else {
+        mostrarResultados();
+      }
+    });
+
+    function mostrarResultados() {
+      document.getElementById('pantalla-resultados').style.display = 'block';
+      document.getElementById('examen-header') && (document.getElementById('examen-header').style.display = 'none');
+
+      // Ocultar zona de pregunta
+      ['pregunta-num','pregunta-badge','pregunta-enunciado','opciones-container','feedback','nav-btns'].forEach(id => {
+        const el = document.getElementById(id) || document.querySelector('.' + id);
+        if (el) el.style.display = 'none';
+      });
+
+      const testPreguntas = preguntas.filter(p => p.tipo === 'test' || p.tipo === 'reserva');
+      const practicas = preguntas.filter(p => p.tipo === 'practica');
+
+      document.getElementById('resultado-score').textContent = `${correctas}/${testPreguntas.length}`;
+      document.getElementById('resultado-detalle').innerHTML =
+        `Preguntas de test respondidas: <strong>${respondidas - practicas.length}</strong><br>
+         Respuestas correctas: <strong>${correctas}</strong><br>
+         Respuestas incorrectas: <strong>${respondidas - practicas.length - correctas}</strong><br>
+         ${practicas.length > 0 ? `Preguntas prácticas revisadas: <strong>${practicas.length}</strong>` : ''}`;
+    }
+
+    document.getElementById('btn-reintentar').addEventListener('click', mostrarMenu);
+    document.getElementById('btn-abandonar').addEventListener('click', mostrarMenu);
+
+    // ── Botones principales ──
+    document.getElementById('btn-aleatorio').addEventListener('click', async () => {
+      try {
+        const todas = await cargarTodasLasPreguntas();
+        const solo_test = todas.filter(p => p.tipo === 'test' || p.tipo === 'reserva');
+        const seleccion = shuffle(solo_test).slice(0, 10);
+        iniciarExamen(seleccion, 'Examen aleatorio — 10 preguntas');
+      } catch(e) { alert('Error al cargar preguntas: ' + e.message); }
+    });
+
+    document.getElementById('btn-completo').addEventListener('click', async () => {
+      try {
+        const todas = await cargarTodasLasPreguntas();
+        iniciarExamen(todas, 'Examen completo');
+      } catch(e) { alert('Error al cargar preguntas: ' + e.message); }
+    });
+
+    document.getElementById('btn-elegir').addEventListener('click', async () => {
+      document.getElementById('modal-elegir').classList.add('open');
+      const lista = document.getElementById('lista-elegir');
+      lista.innerHTML = '<p class="empty-msg">Cargando...</p>';
+      try {
+        const snap = await getDocs(collection(db, 'examenes', 'POO', 'lista'));
+        if (snap.empty) { lista.innerHTML = '<p class="empty-msg">No hay exámenes subidos.</p>'; return; }
+        lista.innerHTML = '';
+        snap.forEach(d => {
+          const e = d.data();
+          const item = document.createElement('div');
+          item.className = 'elegir-item';
+          item.innerHTML = `<div class="elegir-nombre">${e.nombre || e.id}</div><div class="elegir-meta">${e.preguntas ? e.preguntas.length + ' preguntas' : ''}</div>`;
+          item.addEventListener('click', () => {
+            document.getElementById('modal-elegir').classList.remove('open');
+            iniciarExamen(e.preguntas, e.nombre);
+          });
+          lista.appendChild(item);
+        });
+      } catch(e) { lista.innerHTML = `<p class="empty-msg" style="color:#d93025;">Error: ${e.message}</p>`; }
+    });
+
+    document.getElementById('btn-cerrar-elegir').addEventListener('click', () => {
+      document.getElementById('modal-elegir').classList.remove('open');
+    });
+
+    // ── Administración ──
     const modalSubir = document.getElementById('modal-subir');
     const modalVer   = document.getElementById('modal-ver');
     const uploadLog  = document.getElementById('upload-log');
 
-    // --- Modal subir ---
-    document.getElementById('btn-open-modal').addEventListener('click', () => {
-      modalSubir.classList.add('open');
-    });
-
+    document.getElementById('btn-open-modal').addEventListener('click', () => modalSubir.classList.add('open'));
     document.getElementById('btn-cerrar-subir').addEventListener('click', () => {
       modalSubir.classList.remove('open');
-      uploadLog.innerHTML = '';
-      uploadLog.style.display = 'none';
+      uploadLog.innerHTML = ''; uploadLog.style.display = 'none';
       document.getElementById('fileInput').value = '';
     });
 
     function addLog(msg, tipo = 'inf') {
       uploadLog.style.display = 'block';
       const line = document.createElement('div');
-      line.className = tipo;
-      line.textContent = msg;
+      line.className = tipo; line.textContent = msg;
       uploadLog.appendChild(line);
       uploadLog.scrollTop = uploadLog.scrollHeight;
     }
@@ -258,87 +439,48 @@
     document.getElementById('btn-subir').addEventListener('click', async () => {
       const file = document.getElementById('fileInput').files[0];
       if (!file) { alert('Selecciona un archivo JSON primero.'); return; }
-
       uploadLog.innerHTML = '';
       addLog('Leyendo archivo...');
-
       let examen;
-      try {
-        const text = await file.text();
-        examen = JSON.parse(text);
-      } catch(e) {
-        addLog('✗ Error al leer el JSON: ' + e.message, 'err');
-        return;
-      }
-
-      if (!examen.id || !examen.preguntas) {
-        addLog('✗ El JSON no tiene el formato correcto (falta id o preguntas).', 'err');
-        return;
-      }
-
+      try { examen = JSON.parse(await file.text()); }
+      catch(e) { addLog('✗ Error: ' + e.message, 'err'); return; }
+      if (!examen.id || !examen.preguntas) { addLog('✗ Formato incorrecto.', 'err'); return; }
       addLog(`✓ "${examen.nombre}" — ${examen.preguntas.length} preguntas.`, 'ok');
-      addLog('Subiendo a Firestore...');
-
       try {
         await setDoc(doc(db, 'examenes', 'POO', 'lista', examen.id), examen);
-        addLog('✓ Examen subido correctamente.', 'ok');
-      } catch(e) {
-        addLog('✗ Error al subir: ' + e.message, 'err');
-      }
+        addLog('✓ Subido correctamente.', 'ok');
+      } catch(e) { addLog('✗ Error: ' + e.message, 'err'); }
     });
 
-    // --- Modal ver exámenes ---
     document.getElementById('btn-ver-examenes').addEventListener('click', async () => {
       modalVer.classList.add('open');
-      await cargarExamenes();
+      await cargarListaExamenes();
     });
+    document.getElementById('btn-cerrar-ver').addEventListener('click', () => modalVer.classList.remove('open'));
 
-    document.getElementById('btn-cerrar-ver').addEventListener('click', () => {
-      modalVer.classList.remove('open');
-    });
-
-    async function cargarExamenes() {
+    async function cargarListaExamenes() {
       const lista = document.getElementById('lista-examenes');
       lista.innerHTML = '<p class="empty-msg">Cargando...</p>';
-
       try {
         const snap = await getDocs(collection(db, 'examenes', 'POO', 'lista'));
-        if (snap.empty) {
-          lista.innerHTML = '<p class="empty-msg">No hay exámenes subidos todavía.</p>';
-          return;
-        }
-
+        if (snap.empty) { lista.innerHTML = '<p class="empty-msg">No hay exámenes subidos.</p>'; return; }
         lista.innerHTML = '';
-        snap.forEach(docSnap => {
-          const e = docSnap.data();
+        snap.forEach(d => {
+          const e = d.data();
           const item = document.createElement('div');
           item.className = 'examen-item';
-          item.innerHTML = `
-            <div>
-              <div class="examen-nombre">${e.nombre || e.id}</div>
-              <div class="examen-meta">${e.preguntas ? e.preguntas.length + ' preguntas' : ''}</div>
-            </div>
-            <button class="btn-delete" data-id="${docSnap.id}">Eliminar</button>
-          `;
+          item.innerHTML = `<div><div class="examen-nombre">${e.nombre || e.id}</div><div class="examen-meta">${e.preguntas ? e.preguntas.length + ' preguntas' : ''}</div></div><button class="btn-delete" data-id="${d.id}">Eliminar</button>`;
           lista.appendChild(item);
         });
-
         lista.querySelectorAll('.btn-delete').forEach(btn => {
           btn.addEventListener('click', async () => {
             const id = btn.getAttribute('data-id');
-            if (!confirm(`¿Eliminar el examen "${id}"?`)) return;
-            try {
-              await deleteDoc(doc(db, 'examenes', 'POO', 'lista', id));
-              await cargarExamenes();
-            } catch(e) {
-              alert('Error al eliminar: ' + e.message);
-            }
+            if (!confirm(`¿Eliminar "${id}"?`)) return;
+            await deleteDoc(doc(db, 'examenes', 'POO', 'lista', id));
+            await cargarListaExamenes();
           });
         });
-
-      } catch(e) {
-        lista.innerHTML = `<p class="empty-msg" style="color:#d93025;">Error al cargar: ${e.message}</p>`;
-      }
+      } catch(e) { lista.innerHTML = `<p class="empty-msg" style="color:#d93025;">Error: ${e.message}</p>`; }
     }
   </script>
 
