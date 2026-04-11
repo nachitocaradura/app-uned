@@ -12,14 +12,312 @@
       background: #f1f3f4;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 2rem;
+      gap: 2rem;
     }
+
+    .back {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 14px;
+      color: #5f6368;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back:hover { color: #202124; }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 500;
+      color: #202124;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #5f6368;
+      margin-top: -1.5rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9aa0a6;
+      align-self: flex-start;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    button {
+      width: 100%;
+      padding: 18px 24px;
+      background: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: inherit;
+      color: #202124;
+      cursor: pointer;
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+
+    button:hover {
+      background: #f8f9fa;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+
+    button small {
+      display: block;
+      font-size: 12px;
+      font-weight: 400;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .divider {
+      width: 100%;
+      max-width: 420px;
+      border: none;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .btn-upload {
+      background: white;
+      border: 1.5px dashed #dadce0 !important;
+      box-shadow: none !important;
+      color: #5f6368 !important;
+      font-weight: 400 !important;
+    }
+
+    .btn-upload:hover {
+      border-color: #1a73e8 !important;
+      color: #1a73e8 !important;
+      background: #f0f7ff !important;
+    }
+
+    /* Modal */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-bg.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    }
+
+    .modal h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #202124;
+    }
+
+    .modal p {
+      font-size: 13px;
+      color: #5f6368;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .modal input[type="file"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: 1px dashed #dadce0;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      background: #f8f9fa;
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-btns button {
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 8px;
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      background: #1a73e8 !important;
+      color: white !important;
+      font-weight: 500 !important;
+    }
+    .btn-primary:hover { background: #1557b0 !important; }
+    .btn-cancel {
+      background: #f1f3f4 !important;
+      color: #5f6368 !important;
+    }
+
+    #upload-log {
+      margin-top: 1rem;
+      font-size: 12px;
+      font-family: monospace;
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 0.75rem;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+    .ok  { color: #1e8e3e; }
+    .err { color: #d93025; }
   </style>
 </head>
 <body>
-  <h1>POO — Programación Orientada a Objetos</h1>
 
-  <script type="module" src="firebase.js"></script>
+  <a class="back" href="index.html">← Volver</a>
+
+  <h1>Programación Orientada a Objetos</h1>
+  <p class="subtitle">POO — Elige cómo quieres practicar</p>
+
+  <div class="section-label">Hacer examen</div>
+
+  <div class="btn-group">
+    <button>
+      Examen aleatorio
+      <small>10 preguntas mezcladas de todos los exámenes</small>
+    </button>
+    <button>
+      Elegir examen
+      <small>Selecciona un examen concreto y hazlo completo</small>
+    </button>
+    <button>
+      Examen completo
+      <small>Todas las preguntas de todos los exámenes juntas</small>
+    </button>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Administración</div>
+
+  <div class="btn-group">
+    <button class="btn-upload" id="btn-open-modal">
+      + Subir nuevo examen
+      <small>Sube un JSON de examen generado por Claude</small>
+    </button>
+  </div>
+
+  <!-- Modal subida -->
+  <div class="modal-bg" id="modal">
+    <div class="modal">
+      <h2>Subir examen a Firestore</h2>
+      <p>Selecciona el archivo <strong>.json</strong> del examen que te ha generado Claude.</p>
+      <input type="file" id="fileInput" accept=".json">
+      <div class="modal-btns">
+        <button class="btn-primary" id="btn-subir">Subir</button>
+        <button class="btn-cancel" id="btn-cerrar">Cancelar</button>
+      </div>
+      <div id="upload-log"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlqzahzJ5UMaN_tpkzxKp_MlZ78wjqdx4",
+      authDomain: "app-uned-4e17c.firebaseapp.com",
+      projectId: "app-uned-4e17c",
+      storageBucket: "app-uned-4e17c.firebasestorage.app",
+      messagingSenderId: "692772965959",
+      appId: "1:692772965959:web:9d1a3c2fb268f7761aab62",
+      measurementId: "G-ND288L94EV"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const modal = document.getElementById('modal');
+    const uploadLog = document.getElementById('upload-log');
+
+    document.getElementById('btn-open-modal').addEventListener('click', () => {
+      modal.classList.add('open');
+    });
+
+    document.getElementById('btn-cerrar').addEventListener('click', () => {
+      modal.classList.remove('open');
+      uploadLog.innerHTML = '';
+      uploadLog.style.display = 'none';
+      document.getElementById('fileInput').value = '';
+    });
+
+    function addLog(msg, tipo = 'inf') {
+      uploadLog.style.display = 'block';
+      const line = document.createElement('div');
+      line.className = tipo;
+      line.textContent = msg;
+      uploadLog.appendChild(line);
+      uploadLog.scrollTop = uploadLog.scrollHeight;
+    }
+
+    document.getElementById('btn-subir').addEventListener('click', async () => {
+      const file = document.getElementById('fileInput').files[0];
+      if (!file) { alert('Selecciona un archivo JSON primero.'); return; }
+
+      uploadLog.innerHTML = '';
+      addLog('Leyendo archivo...');
+
+      let examen;
+      try {
+        const text = await file.text();
+        examen = JSON.parse(text);
+      } catch(e) {
+        addLog('✗ Error al leer el JSON: ' + e.message, 'err');
+        return;
+      }
+
+      if (!examen.id || !examen.preguntas) {
+        addLog('✗ El JSON no tiene el formato correcto (falta id o preguntas).', 'err');
+        return;
+      }
+
+      addLog(`✓ Examen "${examen.nombre}" — ${examen.preguntas.length} preguntas.`, 'ok');
+      addLog('Subiendo a Firestore...');
+
+      try {
+        await setDoc(doc(db, 'examenes', 'POO', 'lista', examen.id), examen);
+        addLog(`✓ Examen subido correctamente.`, 'ok');
+      } catch(e) {
+        addLog('✗ Error al subir: ' + e.message, 'err');
+      }
+    });
+  </script>
+
 </body>
 </html>
