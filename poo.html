@@ -737,7 +737,7 @@
             dragSrc = item;
             setTimeout(() => item.classList.add('dragging'), 0);
           });
-          item.addEventListener('dragend', () => {
+          item.addEventListener('dragend', async () => {
             item.classList.remove('dragging');
             lista.querySelectorAll('.examen-item').forEach(i => i.classList.remove('drag-over'));
             // Guardar nuevo orden
@@ -777,10 +777,13 @@
 
     // ── Manual ──
     let manualUrl = '';
-    try {
-      const snap = await getDoc(userDocRef('poo'));
-      if (snap.exists()) manualUrl = snap.data().manualUrl || '';
-    } catch(e) {}
+    async function loadManualUrl() {
+      try {
+        const snap = await getDoc(userDocRef('poo'));
+        if (snap.exists()) manualUrl = snap.data().manualUrl || '';
+      } catch(e) {}
+    }
+    await loadManualUrl();
 
     function actualizarBotonManual() {
       const url = manualUrl;
