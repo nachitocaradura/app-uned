@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNED — Iniciar sesión</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f1f3f4; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card {
+      background: white; border-radius: 16px; padding: 2.5rem 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12); width: 90%; max-width: 360px;
+      text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+    }
+    .logo { font-size: 32px; font-weight: 500; letter-spacing: -1px; }
+    .u1{color:#4285f4}.u2{color:#ea4335}.n1{color:#fbbc04}.e1{color:#4285f4}.d1{color:#34a853}
+    h1 { font-size: 18px; font-weight: 500; color: #202124; }
+    p  { font-size: 13px; color: #5f6368; line-height: 1.5; }
+    .btn-google {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 20px; background: white; border: 1px solid #dadce0;
+      border-radius: 8px; font-size: 14px; font-family: inherit; font-weight: 500;
+      color: #202124; cursor: pointer; width: 100%; justify-content: center;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
+    .btn-google:hover { background: #f8f9fa; box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
+    .btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .error { font-size: 13px; color: #d93025; display: none; }
+    .loading { font-size: 13px; color: #5f6368; display: none; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <span class="u1">U</span><span class="u2">N</span><span class="n1">E</span><span class="e1">D</span>
+  </div>
+  <h1>Bienvenido</h1>
+  <p>Inicia sesión con tu cuenta de Google para acceder a tus exámenes y configuración.</p>
+
+  <button class="btn-google" id="btn-google">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Continuar con Google
+  </button>
+
+  <p class="loading" id="loading">Iniciando sesión...</p>
+  <p class="error" id="error-msg">Error al iniciar sesión. Inténtalo de nuevo.</p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlqzahzJ5UMaN_tpkzxKp_MlZ78wjqdx4",
+    authDomain: "app-uned-4e17c.firebaseapp.com",
+    projectId: "app-uned-4e17c",
+    storageBucket: "app-uned-4e17c.firebasestorage.app",
+    messagingSenderId: "692772965959",
+    appId: "1:692772965959:web:9d1a3c2fb268f7761aab62",
+    measurementId: "G-ND288L94EV"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // Si ya está logueado, redirigir
+  onAuthStateChanged(auth, user => {
+    if (user) window.location.href = 'index.html';
+  });
+
+  document.getElementById('btn-google').addEventListener('click', async () => {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('error-msg').style.display = 'none';
+    try {
+      await signInWithPopup(auth, provider);
+      window.location.href = 'index.html';
+    } catch(e) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('error-msg').style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
