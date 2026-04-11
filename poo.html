@@ -269,9 +269,19 @@
   <!-- Modal subir -->
   <div class="modal-bg" id="modal-subir">
     <div class="modal">
-      <h2>Subir examen a Firestore</h2>
-      <p class="modal-desc">Selecciona el archivo <strong>.json</strong> del examen generado por Claude.</p>
-      <input type="file" id="fileInput" accept=".json">
+      <h2>Subir exámenes a Firestore</h2>
+      <p class="modal-desc">Selecciona uno o varios archivos <strong>.json</strong>, o una <strong>carpeta</strong> entera (incluye subcarpetas).</p>
+      <div style="display:flex;gap:8px;margin-bottom:1rem;">
+        <label style="flex:1;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;">
+          📄 Archivos JSON
+          <input type="file" id="fileInput" accept=".json" multiple style="display:none;">
+        </label>
+        <label style="flex:1;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;">
+          📁 Carpeta
+          <input type="file" id="folderInput" webkitdirectory multiple style="display:none;">
+        </label>
+      </div>
+      <div id="files-preview" style="font-size:12px;color:#5f6368;margin-bottom:0.75rem;display:none;"></div>
       <div class="modal-btns">
         <button class="btn-primary" id="btn-subir">Subir</button>
         <button class="btn-cancel" id="btn-cerrar-subir">Cancelar</button>
@@ -315,6 +325,7 @@
       measurementId: "G-ND288L94EV"
     };
 
+    (async () => {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
@@ -629,22 +640,53 @@
       document.getElementById('modal-subir').classList.remove('open');
       uploadLog.innerHTML=''; uploadLog.style.display='none';
       document.getElementById('fileInput').value='';
+      document.getElementById('folderInput').value='';
+      document.getElementById('files-preview').style.display='none';
+      document.getElementById('files-preview').textContent='';
     });
+
     function addLog(msg, tipo='inf') {
       uploadLog.style.display='block';
       const line=document.createElement('div'); line.className=tipo; line.textContent=msg;
       uploadLog.appendChild(line); uploadLog.scrollTop=uploadLog.scrollHeight;
     }
+
+    function getAllJsonFiles() {
+      const fromFiles = [...document.getElementById('fileInput').files];
+      const fromFolder = [...document.getElementById('folderInput').files];
+      const all = [...fromFiles, ...fromFolder].filter(f => f.name.endsWith('.json'));
+      return all;
+    }
+
+    // Preview al seleccionar
+    ['fileInput','folderInput'].forEach(id => {
+      document.getElementById(id).addEventListener('change', () => {
+        const files = getAllJsonFiles();
+        const preview = document.getElementById('files-preview');
+        if (files.length === 0) { preview.style.display='none'; return; }
+        preview.style.display = 'block';
+        preview.textContent = `${files.length} archivo${files.length>1?'s':''} JSON encontrado${files.length>1?'s':''}: ${files.map(f=>f.name).join(', ')}`;
+      });
+    });
+
     document.getElementById('btn-subir').addEventListener('click', async () => {
-      const file=document.getElementById('fileInput').files[0];
-      if (!file) { alert('Selecciona un JSON primero.'); return; }
-      uploadLog.innerHTML=''; addLog('Leyendo...');
-      let examen;
-      try { examen=JSON.parse(await file.text()); } catch(e) { addLog('✗ '+e.message,'err'); return; }
-      if (!examen.id||!examen.preguntas) { addLog('✗ Formato incorrecto.','err'); return; }
-      addLog(`✓ "${examen.nombre}" — ${examen.preguntas.length} preguntas.`,'ok');
-      try { await setDoc(doc(db,'examenes','POO','lista',examen.id),examen); addLog('✓ Subido correctamente.','ok'); }
-      catch(e) { addLog('✗ '+e.message,'err'); }
+      const files = getAllJsonFiles();
+      if (files.length === 0) { alert('Selecciona archivos JSON o una carpeta primero.'); return; }
+      uploadLog.innerHTML='';
+      addLog(`Procesando ${files.length} archivo${files.length>1?'s':''}...`);
+      let ok=0, err=0;
+      for (const file of files) {
+        let examen;
+        try { examen = JSON.parse(await file.text()); } catch(e) { addLog(`✗ ${file.name}: JSON inválido`,'err'); err++; continue; }
+        if (!examen.id||!examen.preguntas) { addLog(`✗ ${file.name}: falta id o preguntas`,'err'); err++; continue; }
+        try {
+          await setDoc(doc(db,'examenes','POO','lista',examen.id),examen);
+          addLog(`✓ ${examen.nombre||examen.id} (${examen.preguntas.length} preguntas)`,'ok');
+          ok++;
+        } catch(e) { addLog(`✗ ${file.name}: ${e.message}`,'err'); err++; }
+      }
+      addLog(`─────────────────`);
+      addLog(`Subidos: ${ok} ✓   Errores: ${err}`, ok>0&&err===0?'ok':'inf');
     });
 
     document.getElementById('btn-ver-examenes').addEventListener('click', async () => {
@@ -779,7 +821,7 @@
     });
 
     actualizarBotonManual();
-
+    })();
   </script>
 
 </body>
