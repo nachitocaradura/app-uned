@@ -21,28 +21,15 @@
 
     .back {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 20px; left: 20px;
       font-size: 14px;
       color: #5f6368;
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
     .back:hover { color: #202124; }
 
-    h1 {
-      font-size: 22px;
-      font-weight: 500;
-      color: #202124;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #5f6368;
-      margin-top: -1.5rem;
-    }
+    h1 { font-size: 22px; font-weight: 500; color: #202124; }
+    .subtitle { font-size: 14px; color: #5f6368; margin-top: -1.5rem; }
 
     .section-label {
       font-size: 11px;
@@ -77,26 +64,10 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.12);
       transition: box-shadow 0.2s, background 0.2s;
     }
+    button:hover { background: #f8f9fa; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+    button small { display: block; font-size: 12px; font-weight: 400; color: #888; margin-top: 2px; }
 
-    button:hover {
-      background: #f8f9fa;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    }
-
-    button small {
-      display: block;
-      font-size: 12px;
-      font-weight: 400;
-      color: #888;
-      margin-top: 2px;
-    }
-
-    .divider {
-      width: 100%;
-      max-width: 420px;
-      border: none;
-      border-top: 1px solid #e0e0e0;
-    }
+    .divider { width: 100%; max-width: 420px; border: none; border-top: 1px solid #e0e0e0; }
 
     .btn-upload {
       background: white;
@@ -105,14 +76,8 @@
       color: #5f6368 !important;
       font-weight: 400 !important;
     }
+    .btn-upload:hover { border-color: #1a73e8 !important; color: #1a73e8 !important; background: #f0f7ff !important; }
 
-    .btn-upload:hover {
-      border-color: #1a73e8 !important;
-      color: #1a73e8 !important;
-      background: #f0f7ff !important;
-    }
-
-    /* Modal */
     .modal-bg {
       display: none;
       position: fixed;
@@ -131,68 +96,54 @@
       width: 90%;
       max-width: 480px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      max-height: 80vh;
+      overflow-y: auto;
     }
-
-    .modal h2 {
-      font-size: 16px;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: #202124;
-    }
-
-    .modal p {
-      font-size: 13px;
-      color: #5f6368;
-      margin-bottom: 1.25rem;
-      line-height: 1.5;
-    }
-
+    .modal h2 { font-size: 16px; font-weight: 500; margin-bottom: 0.5rem; color: #202124; }
+    .modal p { font-size: 13px; color: #5f6368; margin-bottom: 1.25rem; line-height: 1.5; }
     .modal input[type="file"] {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border: 1px dashed #dadce0;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      background: #f8f9fa;
+      display: block; width: 100%; padding: 10px;
+      border: 1px dashed #dadce0; border-radius: 8px;
+      font-size: 13px; margin-bottom: 1rem;
+      cursor: pointer; background: #f8f9fa;
     }
-
-    .modal-btns {
-      display: flex;
-      gap: 8px;
-    }
-
-    .modal-btns button {
-      padding: 10px 16px;
-      font-size: 14px;
-      border-radius: 8px;
-      box-shadow: none;
-    }
-
-    .btn-primary {
-      background: #1a73e8 !important;
-      color: white !important;
-      font-weight: 500 !important;
-    }
+    .modal-btns { display: flex; gap: 8px; }
+    .modal-btns button { padding: 10px 16px; font-size: 14px; border-radius: 8px; box-shadow: none; }
+    .btn-primary { background: #1a73e8 !important; color: white !important; font-weight: 500 !important; }
     .btn-primary:hover { background: #1557b0 !important; }
-    .btn-cancel {
-      background: #f1f3f4 !important;
-      color: #5f6368 !important;
-    }
+    .btn-cancel { background: #f1f3f4 !important; color: #5f6368 !important; }
 
     #upload-log {
-      margin-top: 1rem;
-      font-size: 12px;
-      font-family: monospace;
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 0.75rem;
-      max-height: 200px;
-      overflow-y: auto;
-      display: none;
+      margin-top: 1rem; font-size: 12px; font-family: monospace;
+      background: #f8f9fa; border-radius: 8px; padding: 0.75rem;
+      max-height: 200px; overflow-y: auto; display: none;
     }
+
+    /* Lista de exámenes */
+    .examen-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f3f4;
+    }
+    .examen-item:last-child { border-bottom: none; }
+    .examen-nombre { font-size: 14px; color: #202124; }
+    .examen-meta { font-size: 12px; color: #9aa0a6; margin-top: 2px; }
+    .btn-delete {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+      background: #fce8e6 !important;
+      color: #d93025 !important;
+      border-radius: 8px;
+      box-shadow: none !important;
+      font-weight: 500 !important;
+      flex-shrink: 0;
+    }
+    .btn-delete:hover { background: #f5c6c2 !important; }
+    .empty-msg { font-size: 13px; color: #9aa0a6; text-align: center; padding: 1.5rem 0; }
+
     .ok  { color: #1e8e3e; }
     .err { color: #d93025; }
   </style>
@@ -230,25 +181,41 @@
       + Subir nuevo examen
       <small>Sube un JSON de examen generado por Claude</small>
     </button>
+    <button class="btn-upload" id="btn-ver-examenes">
+      Ver exámenes subidos
+      <small>Lista y elimina los exámenes guardados en Firestore</small>
+    </button>
   </div>
 
-  <!-- Modal subida -->
-  <div class="modal-bg" id="modal">
+  <!-- Modal: subir examen -->
+  <div class="modal-bg" id="modal-subir">
     <div class="modal">
       <h2>Subir examen a Firestore</h2>
-      <p>Selecciona el archivo <strong>.json</strong> del examen que te ha generado Claude.</p>
+      <p>Selecciona el archivo <strong>.json</strong> del examen generado por Claude.</p>
       <input type="file" id="fileInput" accept=".json">
       <div class="modal-btns">
         <button class="btn-primary" id="btn-subir">Subir</button>
-        <button class="btn-cancel" id="btn-cerrar">Cancelar</button>
+        <button class="btn-cancel" id="btn-cerrar-subir">Cancelar</button>
       </div>
       <div id="upload-log"></div>
     </div>
   </div>
 
+  <!-- Modal: ver exámenes -->
+  <div class="modal-bg" id="modal-ver">
+    <div class="modal">
+      <h2>Exámenes subidos</h2>
+      <p>Aquí puedes ver y eliminar los exámenes guardados en Firestore.</p>
+      <div id="lista-examenes"><p class="empty-msg">Cargando...</p></div>
+      <div class="modal-btns" style="margin-top: 1.25rem;">
+        <button class="btn-cancel" id="btn-cerrar-ver">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAlqzahzJ5UMaN_tpkzxKp_MlZ78wjqdx4",
@@ -263,15 +230,17 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const modal = document.getElementById('modal');
-    const uploadLog = document.getElementById('upload-log');
+    const modalSubir = document.getElementById('modal-subir');
+    const modalVer   = document.getElementById('modal-ver');
+    const uploadLog  = document.getElementById('upload-log');
 
+    // --- Modal subir ---
     document.getElementById('btn-open-modal').addEventListener('click', () => {
-      modal.classList.add('open');
+      modalSubir.classList.add('open');
     });
 
-    document.getElementById('btn-cerrar').addEventListener('click', () => {
-      modal.classList.remove('open');
+    document.getElementById('btn-cerrar-subir').addEventListener('click', () => {
+      modalSubir.classList.remove('open');
       uploadLog.innerHTML = '';
       uploadLog.style.display = 'none';
       document.getElementById('fileInput').value = '';
@@ -307,16 +276,70 @@
         return;
       }
 
-      addLog(`✓ Examen "${examen.nombre}" — ${examen.preguntas.length} preguntas.`, 'ok');
+      addLog(`✓ "${examen.nombre}" — ${examen.preguntas.length} preguntas.`, 'ok');
       addLog('Subiendo a Firestore...');
 
       try {
         await setDoc(doc(db, 'examenes', 'POO', 'lista', examen.id), examen);
-        addLog(`✓ Examen subido correctamente.`, 'ok');
+        addLog('✓ Examen subido correctamente.', 'ok');
       } catch(e) {
         addLog('✗ Error al subir: ' + e.message, 'err');
       }
     });
+
+    // --- Modal ver exámenes ---
+    document.getElementById('btn-ver-examenes').addEventListener('click', async () => {
+      modalVer.classList.add('open');
+      await cargarExamenes();
+    });
+
+    document.getElementById('btn-cerrar-ver').addEventListener('click', () => {
+      modalVer.classList.remove('open');
+    });
+
+    async function cargarExamenes() {
+      const lista = document.getElementById('lista-examenes');
+      lista.innerHTML = '<p class="empty-msg">Cargando...</p>';
+
+      try {
+        const snap = await getDocs(collection(db, 'examenes', 'POO', 'lista'));
+        if (snap.empty) {
+          lista.innerHTML = '<p class="empty-msg">No hay exámenes subidos todavía.</p>';
+          return;
+        }
+
+        lista.innerHTML = '';
+        snap.forEach(docSnap => {
+          const e = docSnap.data();
+          const item = document.createElement('div');
+          item.className = 'examen-item';
+          item.innerHTML = `
+            <div>
+              <div class="examen-nombre">${e.nombre || e.id}</div>
+              <div class="examen-meta">${e.preguntas ? e.preguntas.length + ' preguntas' : ''}</div>
+            </div>
+            <button class="btn-delete" data-id="${docSnap.id}">Eliminar</button>
+          `;
+          lista.appendChild(item);
+        });
+
+        lista.querySelectorAll('.btn-delete').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            if (!confirm(`¿Eliminar el examen "${id}"?`)) return;
+            try {
+              await deleteDoc(doc(db, 'examenes', 'POO', 'lista', id));
+              await cargarExamenes();
+            } catch(e) {
+              alert('Error al eliminar: ' + e.message);
+            }
+          });
+        });
+
+      } catch(e) {
+        lista.innerHTML = `<p class="empty-msg" style="color:#d93025;">Error al cargar: ${e.message}</p>`;
+      }
+    }
   </script>
 
 </body>
