@@ -238,9 +238,10 @@
 
   // ── Utilidades ──
   function generarSiglas(nombre) {
+    const stopWords = ['de','del','la','el','los','las','un','una','y','e','o','en','a','con','por','para','que','se'];
     return nombre
       .split(/\s+/)
-      .filter(p => p.length > 2 || p.length === p.length)
+      .filter(p => p.length > 0 && !stopWords.includes(p.toLowerCase()))
       .map(p => p[0].toUpperCase())
       .join('')
       .slice(0, 5);
