@@ -118,6 +118,33 @@
     .elegir-meta { font-size: 12px; color: #9aa0a6; margin-top: 2px; }
     .ok { color: #1e8e3e; } .err { color: #d93025; }
 
+    /* Pestañas modal subir */
+    .modal-tabs { display: flex; border-bottom: 1px solid #e0e0e0; margin-bottom: 1.25rem; gap: 0; }
+    .modal-tab {
+      flex: 1; padding: 10px; font-size: 13px; font-weight: 500; font-family: inherit;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: #9aa0a6; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+      margin-bottom: -1px;
+    }
+    .modal-tab.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+    .modal-tab-content { display: none; }
+    .modal-tab-content.active { display: block; }
+    .api-key-input {
+      width: 100%; padding: 9px 12px; border: 1.5px solid #dadce0;
+      border-radius: 8px; font-size: 13px; font-family: monospace;
+      color: #202124; outline: none; margin-bottom: 0.75rem;
+      transition: border-color 0.15s;
+    }
+    .api-key-input:focus { border-color: #1a73e8; }
+    .convert-status {
+      font-size: 13px; color: #5f6368; margin: 0.75rem 0;
+      padding: 10px 14px; background: #f8f9fa; border-radius: 8px;
+      display: none; line-height: 1.5;
+    }
+    .convert-status.working { color: #1a73e8; background: #e8f0fe; }
+    .convert-status.ok { color: #1e8e3e; background: #e6f4ea; }
+    .convert-status.err { color: #d93025; background: #fce8e6; }
+
     /* Pantalla examen */
     #pantalla-examen { display: none; width: 100%; max-width: 640px; }
     .examen-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -269,24 +296,48 @@
   <!-- Modal subir -->
   <div class="modal-bg" id="modal-subir">
     <div class="modal">
-      <h2>Subir exámenes a Firestore</h2>
-      <p class="modal-desc">Selecciona uno o varios archivos <strong>.json</strong>, o una <strong>carpeta</strong> entera (incluye subcarpetas).</p>
-      <div style="display:flex;gap:8px;margin-bottom:1rem;">
-        <label style="flex:1;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;">
-          📄 Archivos JSON
-          <input type="file" id="fileInput" accept=".json" multiple style="display:none;">
-        </label>
-        <label style="flex:1;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;">
-          📁 Carpeta
-          <input type="file" id="folderInput" webkitdirectory multiple style="display:none;">
-        </label>
+      <h2>Añadir examen</h2>
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="tab-json">📄 Subir JSON</button>
+        <button class="modal-tab" data-tab="tab-pdf">🤖 Convertir PDF</button>
       </div>
-      <div id="files-preview" style="font-size:12px;color:#5f6368;margin-bottom:0.75rem;display:none;"></div>
-      <div class="modal-btns">
-        <button class="btn-primary" id="btn-subir">Subir</button>
-        <button class="btn-cancel" id="btn-cerrar-subir">Cancelar</button>
+
+      <!-- Pestaña JSON -->
+      <div class="modal-tab-content active" id="tab-json">
+        <p class="modal-desc">Selecciona uno o varios archivos <strong>.json</strong>, o una <strong>carpeta</strong> entera.</p>
+        <div style="display:flex;gap:8px;margin-bottom:1rem;">
+          <label style="flex:1;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;">
+            📄 Archivos JSON
+            <input type="file" id="fileInput" accept=".json" multiple style="display:none;">
+          </label>
+          <label style="flex:1;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;">
+            📁 Carpeta
+            <input type="file" id="folderInput" webkitdirectory multiple style="display:none;">
+          </label>
+        </div>
+        <div id="files-preview" style="font-size:12px;color:#5f6368;margin-bottom:0.75rem;display:none;"></div>
+        <div class="modal-btns">
+          <button class="btn-primary" id="btn-subir">Subir</button>
+          <button class="btn-cancel" id="btn-cerrar-subir">Cancelar</button>
+        </div>
+        <div id="upload-log"></div>
       </div>
-      <div id="upload-log"></div>
+
+      <!-- Pestaña PDF -->
+      <div class="modal-tab-content" id="tab-pdf">
+        <p class="modal-desc">Claude leerá el PDF y generará el JSON automáticamente. Necesitas tu propia <strong>API key de Anthropic</strong>.</p>
+        <input type="password" class="api-key-input" id="api-key-input" placeholder="sk-ant-...  (tu API key de Anthropic)">
+        <label style="display:block;padding:10px;border:1px dashed #dadce0;border-radius:8px;font-size:13px;background:#f8f9fa;cursor:pointer;text-align:center;color:#5f6368;margin-bottom:0.75rem;">
+          📄 Seleccionar PDF
+          <input type="file" id="pdfInput" accept=".pdf" style="display:none;">
+        </label>
+        <div id="pdf-nombre" style="font-size:12px;color:#5f6368;margin-bottom:0.5rem;display:none;"></div>
+        <div class="convert-status" id="convert-status"></div>
+        <div class="modal-btns" style="margin-top:0.75rem;">
+          <button class="btn-primary" id="btn-convertir">Convertir y subir</button>
+          <button class="btn-cancel" id="btn-cerrar-pdf">Cancelar</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -844,6 +895,146 @@
     });
 
     actualizarBotonManual();
+
+    // ── Pestañas modal subir ──
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.modal-tab-content').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    document.getElementById('btn-cerrar-pdf').addEventListener('click', () => {
+      document.getElementById('modal-subir').classList.remove('open');
+      document.getElementById('pdfInput').value = '';
+      document.getElementById('pdf-nombre').style.display = 'none';
+      document.getElementById('convert-status').style.display = 'none';
+      document.getElementById('convert-status').className = 'convert-status';
+    });
+
+    document.getElementById('pdfInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const el = document.getElementById('pdf-nombre');
+      if (file) { el.textContent = '📄 ' + file.name; el.style.display = 'block'; }
+      else { el.style.display = 'none'; }
+    });
+
+    // ── Convertir PDF con Claude API ──
+    document.getElementById('btn-convertir').addEventListener('click', async () => {
+      const apiKey = document.getElementById('api-key-input').value.trim();
+      const pdfFile = document.getElementById('pdfInput').files[0];
+      const status = document.getElementById('convert-status');
+
+      if (!apiKey) { alert('Introduce tu API key de Anthropic.'); return; }
+      if (!pdfFile) { alert('Selecciona un PDF primero.'); return; }
+
+      const setStatus = (msg, tipo) => {
+        status.textContent = msg;
+        status.className = 'convert-status ' + tipo;
+        status.style.display = 'block';
+      };
+
+      setStatus('Leyendo el PDF...', 'working');
+
+      // Convertir PDF a base64
+      let base64Data;
+      try {
+        base64Data = await new Promise((res, rej) => {
+          const reader = new FileReader();
+          reader.onload = () => res(reader.result.split(',')[1]);
+          reader.onerror = () => rej(new Error('Error leyendo el archivo'));
+          reader.readAsDataURL(pdfFile);
+        });
+      } catch(e) { setStatus('✗ Error al leer el PDF: ' + e.message, 'err'); return; }
+
+      setStatus('Enviando a Claude... (puede tardar unos segundos)', 'working');
+
+      const prompt = `Eres un asistente que convierte exámenes universitarios en JSON estructurado.
+Analiza este PDF de examen y extrae TODAS las preguntas.
+
+Devuelve ÚNICAMENTE un JSON válido con esta estructura exacta, sin texto adicional, sin bloques de código markdown:
+{
+  "id": "identificador_unico_sin_espacios",
+  "nombre": "Nombre descriptivo del examen (ej: Junio 2025 Modelo A)",
+  "asignatura": "siglas de la asignatura",
+  "fecha": "fecha del examen",
+  "preguntas": [
+    {
+      "id": 1,
+      "tipo": "test",
+      "enunciado": "texto completo de la pregunta incluyendo código si lo hay",
+      "opciones": ["opción a", "opción b", "opción c", "opción d"],
+      "respuesta_correcta": 0
+    }
+  ]
+}
+
+Tipos posibles: "test" (opción múltiple), "reserva" (preguntas de reserva), "practica" (desarrollo, sin opciones, respuesta_correcta: -1).
+Para respuesta_correcta usa el índice 0-3 de la opción correcta. Si no sabes cuál es la correcta pon -1.
+Para preguntas prácticas deja opciones como array vacío [].
+Incluye el código Java exactamente como aparece en el enunciado.`;
+
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: 'claude-opus-4-5',
+            max_tokens: 4096,
+            messages: [{
+              role: 'user',
+              content: [
+                { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64Data } },
+                { type: 'text', text: prompt }
+              ]
+            }]
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.json();
+          setStatus('✗ Error de API: ' + (err.error?.message || response.status), 'err');
+          return;
+        }
+
+        const data = await response.json();
+        const texto = data.content.map(b => b.text || '').join('').trim();
+
+        let examen;
+        try {
+          const clean = texto.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+          examen = JSON.parse(clean);
+        } catch(e) {
+          setStatus('✗ El JSON generado no es válido. Inténtalo de nuevo.', 'err');
+          console.error('JSON recibido:', texto);
+          return;
+        }
+
+        if (!examen.id || !examen.preguntas) {
+          setStatus('✗ El JSON no tiene el formato esperado.', 'err');
+          return;
+        }
+
+        setStatus(`✓ Examen detectado: "${examen.nombre}" — ${examen.preguntas.length} preguntas. Subiendo...`, 'working');
+
+        await setDoc(examenDocRef(examen.id), examen);
+
+        setStatus(`✓ "${examen.nombre}" subido correctamente (${examen.preguntas.length} preguntas).`, 'ok');
+        document.getElementById('pdfInput').value = '';
+        document.getElementById('pdf-nombre').style.display = 'none';
+
+      } catch(e) {
+        setStatus('✗ Error: ' + e.message, 'err');
+      }
+    });
+
     })();
   </script>
 
