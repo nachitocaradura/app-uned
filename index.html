@@ -140,8 +140,8 @@
     .day-events { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; max-width: 100%; }
     .day-badge {
       font-size: 8px; font-weight: 700; color: white;
-      padding: 1px 4px; border-radius: 4px; letter-spacing: 0.02em;
-      max-width: 36px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      padding: 1px 5px; border-radius: 4px; letter-spacing: 0.02em;
+      max-width: 52px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
 
     /* ── Popover añadir evento ── */
@@ -289,7 +289,14 @@
     <select id="popover-asig"></select>
   </div>
   <div class="popover-field">
-    <label>Hora del examen</label>
+    <label>Tipo de evento</label>
+    <select id="popover-tipo">
+      <option value="examen">📝 Examen</option>
+      <option value="practica">💻 Práctica</option>
+    </select>
+  </div>
+  <div class="popover-field">
+    <label>Hora</label>
     <input type="time" id="popover-hora" value="09:00">
   </div>
   <div class="popover-btns">
@@ -493,7 +500,8 @@
           const badge = document.createElement('div');
           badge.className = 'day-badge';
           badge.style.background = color;
-          badge.textContent = siglas;
+          const tipoIcon = ev.tipo === 'practica' ? '💻' : '📝';
+          badge.textContent = tipoIcon + ' ' + siglas;
           evWrap.appendChild(badge);
         });
         el.appendChild(evWrap);
@@ -560,9 +568,11 @@
       const color = asigIdx >= 0 ? COLORS[asigIdx % 8] : '#9aa0a6';
       const item = document.createElement('div');
       item.className = 'popover-evento-item';
+      const tipoIcon = ev.tipo === 'practica' ? '💻' : '📝';
       item.innerHTML = `
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};flex-shrink:0;"></span>
+          <span>${tipoIcon}</span>
           <strong>${ev.siglas}</strong><span>${ev.hora}</span>
         </div>
         <button class="btn-del-evento" data-idx="${idx}">✕</button>`;
@@ -594,7 +604,8 @@
 
     const asig = asignaturas.find(a => a.id === asigId);
     if (!eventos[popoverKey]) eventos[popoverKey] = [];
-    eventos[popoverKey].push({ asigId, hora, siglas: asig.siglas });
+    const tipo = document.getElementById('popover-tipo').value;
+    eventos[popoverKey].push({ asigId, hora, siglas: asig.siglas, tipo });
     // Ordenar por hora
     eventos[popoverKey].sort((a, b) => a.hora.localeCompare(b.hora));
 
