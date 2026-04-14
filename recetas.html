@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>🍳 Nuestras Recetas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg: #ffd6e0; --mid: #ffb3c6; --dark: #ff85a1; --accent: #ff4d79; --shadow: rgba(255, 77, 121, 0.25);
+    }
+    [data-theme="blue"] {
+      --bg: #d6eaff; --mid: #b3d9ff; --dark: #85bfff; --accent: #4d94ff; --shadow: rgba(77, 148, 255, 0.25);
+    }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); min-height: 100dvh; transition: background 0.4s ease; padding-bottom: 40px; }
+    
+    header { padding: 60px 20px 20px; text-align: center; }
+    header h1 { color: var(--accent); font-weight: 900; font-size: 28px; }
+
+    .container { padding: 0 20px; max-width: 600px; margin: 0 auto; }
+    
+    .add-btn {
+      background: var(--accent); color: white; border: none; padding: 15px 25px;
+      border-radius: 20px; font-weight: 900; font-size: 16px; width: 100%;
+      box-shadow: 0 8px 20px var(--shadow); cursor: pointer; margin-bottom: 25px;
+    }
+
+    .receta-card {
+      background: white; border-radius: 25px; padding: 20px; margin-bottom: 15px;
+      box-shadow: 0 10px 25px var(--shadow); display: flex; justify-content: space-between; align-items: center;
+    }
+    .receta-info h3 { color: var(--accent); font-weight: 900; }
+    .receta-info p { color: #888; font-size: 13px; font-weight: 700; }
+
+    /* MODAL Y AJUSTES DE INTERFAZ MÓVIL SOLICITADOS */
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+    }
+    .modal.show { display: flex; }
+    .modal-content {
+      background: white; padding: 25px; border-radius: 30px; width: 100%; max-width: 500px;
+      max-height: 90dvh; overflow-y: auto; display: flex; flex-direction: column;
+    }
+
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+    .tab-btn {
+      padding: 8px 15px; border-radius: 12px; border: none; background: #eee;
+      color: #666; font-weight: 800; font-size: 13px; cursor: pointer; white-space: nowrap;
+    }
+    .tab-btn.active { background: var(--accent); color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    input, textarea, select {
+      width: 100%; padding: 12px; margin: 8px 0; border-radius: 15px;
+      border: 2px solid var(--bg); outline: none; font-family: inherit; font-weight: 700;
+    }
+
+    .item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; background: #f9f9f9; padding: 10px; border-radius: 15px; }
+    .btn-delete { background: #ffe5e5; color: #ff4444; border: none; padding: 8px; border-radius: 10px; font-weight: 900; cursor: pointer; }
+
+    .selector-pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+    .paso-opt {
+      background: #f0f0f0; padding: 10px; border-radius: 15px; text-align: center;
+      cursor: pointer; font-size: 12px; font-weight: 800; transition: 0.2s;
+    }
+    .paso-opt:hover { background: var(--bg); }
+
+    .paso-card { border: 2px dashed var(--mid); padding: 15px; border-radius: 20px; margin-bottom: 15px; position: relative; }
+    .mezclar-list { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 10px 0; }
+    .mezclar-item { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+  </style>
+</head>
+<body>
+  <header><h1>🍳 Nuestras Recetas</h1></header>
+  <div class="container">
+    <button class="add-btn" onclick="abrirNuevaReceta()">+ Nueva Receta</button>
+    <div id="listaRecetas"></div>
+  </div>
+
+  <div class="modal" id="modalReceta">
+    <div class="modal-content">
+      <input type="text" id="recetaTitulo" placeholder="Título de la receta..." style="font-size: 18px; border-color: var(--accent);">
+      
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(0)">🍎 Ingredientes</button>
+        <button class="tab-btn" onclick="switchTab(1)">👨‍🍳 Preparación</button>
+        <button class="tab-btn" onclick="switchTab(2)">📅 Programar</button>
+      </div>
+
+      <div id="tab-ingredientes" class="tab-content active">
+        <div id="listaIngredientes"></div>
+        <button class="tab-btn" style="width:100%; margin-top:10px; background:var(--bg); color:var(--dark);" onclick="añadirIngrediente()">+ Añadir Ingrediente</button>
+      </div>
+
+      <div id="tab-pasos" class="tab-content">
+        <div class="selector-pasos">
+          <div class="paso-opt" onclick="añadirPaso('mezclar', '🥣')">🥣 Mezclar</div>
+          <div class="paso-opt" onclick="añadirPaso('cocinar', '🔥')">🔥 Cocinar</div>
+          <div class="paso-opt" onclick="añadirPaso('esperar', '⏰')">⏰ Esperar</div>
+          <div class="paso-opt" onclick="añadirPaso('batir', '🌪️')">🌪️ Batir</div>
+          <div class="paso-opt" onclick="añadirPaso('cortar', '🔪')">🔪 Cortar</div>
+          <div class="paso-opt" onclick="añadirPaso('nota', '📝')">📝 Nota</div>
+        </div>
+        <div id="listaPasos"></div>
+      </div>
+
+      <div id="tab-programar" class="tab-content">
+        <p style="font-weight:800; color:var(--dark); margin-bottom:10px;">¿Cuándo la vamos a cocinar?</p>
+        <input type="date" id="fechaProgramada">
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button class="add-btn" style="margin:0;" onclick="guardarReceta()">Guardar Receta ✨</button>
+        <button class="add-btn" style="margin:0; background:#eee; color:#666;" onclick="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="global.js"></script>
+  <script type="module">
+    import { db, auth } from './firebase.js';
+    import { collection, addDoc, query, where, onSnapshot, doc, updateDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    let recetaSeleccionadaId = null;
+    let user = null;
+    let parejaId = null;
+
+    auth.onAuthStateChanged(async (u) => {
+      if (!u) window.location.href = "auth.html";
+      user = u;
+      const uDoc = await getDoc(doc(db, "usuarios", u.uid));
+      parejaId = uDoc.data()?.parejaId;
+      cargarRecetas();
+    });
+
+    window.switchTab = (n) => {
+      document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+      document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === n));
+    };
+
+    window.añadirIngrediente = (nombre='', cant='', unit='gr', checked=false, balanza=false) => {
+      const div = document.createElement('div');
+      div.className = 'item-row';
+      div.innerHTML = `
+        <input type="text" class="ingrediente-nombre" placeholder="Nombre..." value="${nombre}" style="flex:2">
+        <input type="number" class="ingrediente-cant" placeholder="Cant." value="${cant}" style="flex:1">
+        <select class="ingrediente-unit" style="flex:1">
+          <option value="gr" ${unit==='gr'?'selected':''}>gr</option>
+          <option value="ml" ${unit==='ml'?'selected':''}>ml</option>
+          <option value="uds" ${unit==='uds'?'selected':''}>uds</option>
+          <option value="cda" ${unit==='cda'?'selected':''}>cda</option>
+        </select>
+        <button class="btn-delete" onclick="this.parentElement.remove()">×</button>
+      `;
+      document.getElementById('listaIngredientes').appendChild(div);
+    };
+
+    window.añadirPaso = (tipo, emoji, detalles={}) => {
+      const div = document.createElement('div');
+      div.className = 'paso-card';
+      div.dataset.tipo = tipo;
+      div.dataset.emoji = emoji;
+
+      let htmlExtra = '';
+      const ingredientesActuales = Array.from(document.querySelectorAll('.ingrediente-nombre')).map(i => i.value).filter(v => v !== '');
+
+      if(['mezclar', 'batir', 'cocinar', 'cortar'].includes(tipo)) {
+        htmlExtra = `<div class="mezclar-list">
+          <p style="grid-column: 1/-1; font-size:10px; margin-bottom:5px; opacity:0.7;">¿Qué usamos?</p>
+          ${ingredientesActuales.map(ing => `
+            <label class="mezclar-item">
+              <input type="checkbox" class="mezclar-check" value="${ing}" ${detalles.mezclaUsada?.includes(ing)?'checked':''}> ${ing}
+            </label>
+          `).join('')}
+        </div>`;
+      }
+
+      div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:900;">${emoji} ${tipo.toUpperCase()}</span>
+          <button class="btn-delete" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+        ${htmlExtra}
+        <textarea class="paso-anotacion" placeholder="Anotaciones para este paso..." style="font-size:12px; height:60px;">${detalles.anotacion || ''}</textarea>
+      `;
+      document.getElementById('listaPasos').appendChild(div);
+    };
+
+    window.guardarReceta = async () => {
+      const titulo = document.getElementById('recetaTitulo').value;
+      if (!titulo) return alert("Ponle un título");
+
+      const ingredientes = Array.from(document.querySelectorAll('#listaIngredientes .item-row')).map(row => ({
+        nombre: row.querySelector('.ingrediente-nombre').value,
+        cant: row.querySelector('.ingrediente-cant').value,
+        unit: row.querySelector('.ingrediente-unit').value,
+        checked: false
+      }));
+
+      const pasos = Array.from(document.querySelectorAll('#listaPasos .paso-card')).map(card => ({
+        tipo: card.dataset.tipo,
+        emoji: card.dataset.emoji,
+        anotacion: card.querySelector('.paso-anotacion').value,
+        mezclaUsada: Array.from(card.querySelectorAll('.mezclar-check:checked')).map(c => c.value)
+      }));
+
+      const data = {
+        titulo, ingredientes, pasos,
+        fechaCocinar: document.getElementById('fechaProgramada').value,
+        creador: user.uid,
+        fechaCreacion: new Date().toISOString()
+      };
+
+      if (recetaSeleccionadaId) {
+        await updateDoc(doc(db, "recetas", recetaSeleccionadaId), data);
+      } else {
+        await addDoc(collection(db, "recetas"), data);
+      }
+      cerrarModal();
+    };
+
+    function cargarRecetas() {
+      const ids = [user.uid]; if(parejaId) ids.push(parejaId);
+      onSnapshot(query(collection(db, "recetas"), where("creador", "in", ids)), (snap) => {
+        const list = document.getElementById('listaRecetas');
+        list.innerHTML = '';
+        snap.forEach(d => {
+          const r = d.data();
+          const card = document.createElement('div');
+          card.className = 'receta-card';
+          card.innerHTML = `
+            <div class="receta-info">
+              <h3>${r.titulo}</h3>
+              <p>${r.ingredientes.length} ing. • ${r.pasos.length} pasos</p>
+              ${r.fechaCocinar ? `<p style="color:var(--accent)">📅 ${r.fechaCocinar}</p>` : ''}
+            </div>
+            <button onclick="event.stopPropagation(); deleteDoc(doc(db,'recetas','${d.id}'))" style="background:#ffe5e5; color:#ff4444; border:none; padding:5px 10px; border-radius:10px; font-size:12px;">Borrar</button>`;
+          card.onclick = () => editarReceta(d.id, r);
+          list.appendChild(card);
+        });
+      });
+    }
+
+    window.editarReceta = (id, r) => {
+      recetaSeleccionadaId = id;
+      document.getElementById('recetaTitulo').value = r.titulo;
+      document.getElementById('listaIngredientes').innerHTML = '';
+      document.getElementById('listaPasos').innerHTML = '';
+      r.ingredientes.forEach(i => añadirIngrediente(i.nombre, i.cant, i.unit, i.checked));
+      r.pasos.forEach(p => añadirPaso(p.tipo, p.emoji, p));
+      document.getElementById('fechaProgramada').value = r.fechaCocinar || '';
+      document.getElementById('modalReceta').classList.add('show');
+    };
+
+    window.abrirNuevaReceta = () => {
+      recetaSeleccionadaId = null;
+      document.getElementById('recetaTitulo').value = '';
+      document.getElementById('listaIngredientes').innerHTML = '';
+      document.getElementById('listaPasos').innerHTML = '';
+      document.getElementById('fechaProgramada').value = '';
+      document.getElementById('modalReceta').classList.add('show');
+    };
+
+    window.cerrarModal = () => document.getElementById('modalReceta').classList.remove('show');
+
+    // --- NUEVO: FIX DE PERSISTENCIA PARA CHECKLISTS (SIN ALTERAR FUNCIONES) ---
+    const observer = new MutationObserver(() => {
+        if (document.getElementById('tab-pasos').classList.contains('active')) {
+            const ingNames = Array.from(document.querySelectorAll('.ingrediente-nombre'))
+                                  .map(i => i.value)
+                                  .filter(v => v !== '');
+            
+            document.querySelectorAll('.mezclar-list').forEach((list) => {
+                const checksPrevios = Array.from(list.querySelectorAll('.mezclar-check:checked')).map(c => c.value);
+                list.innerHTML = `<p style="font-size:10px; margin-bottom:5px; opacity:0.7;">¿Qué usamos?</p>` + 
+                    ingNames.map(name => `
+                        <label class="mezclar-item">
+                            <input type="checkbox" class="mezclar-check" value="${name}" ${checksPrevios.includes(name) ? 'checked' : ''}> ${name}
+                        </label>
+                    `).join('');
+            });
+        }
+    });
+
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        observer.observe(tab, { attributes: true, attributeFilter: ['class'] });
+    });
+  </script>
+</body>
+</html>
